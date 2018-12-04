@@ -16,9 +16,9 @@ pipeline {
                 sh '$(aws ecr get-login --no-include-email --region us-east-2)'
                 sh "docker build  --build-arg OW_API_KEY=${params.OW_API_KEY} -t ${params.ECR_REPO} ."
                 sh "docker tag ${params.ECR_REPO}:latest ${params.ECR_URL}/${params.ECR_REPO}:latest"
-                sh "docker tag ${params.ECR_REPO}:${BUILD_NUMBER}-${SHORT_GIT_COMMIT} ${params.ECR_URL}/${params.ECR_REPO}:${BUILD_NUMBER}-${SHORT_GIT_COMMIT}"
+                sh "docker tag ${params.ECR_REPO}:${BUILD_NUMBER}-${GIT_COMMIT} ${params.ECR_URL}/${params.ECR_REPO}:${BUILD_NUMBER}-${GIT_COMMIT}"
                 sh "docker push ${params.ECR_URL}/${params.ECR_REPO}:latest"
-                sh "docker push ${params.ECR_URL}/${params.ECR_REPO}:${BUILD_NUMBER}-${SHORT_GIT_COMMIT}"
+                sh "docker push ${params.ECR_URL}/${params.ECR_REPO}:${BUILD_NUMBER}-${GIT_COMMIT}"
               }
 
             }
