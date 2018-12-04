@@ -54,6 +54,12 @@ pipeline {
             steps {
               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${params.AWS_KEY_ID}"]]) {
                 script {
+                gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+                shortCommitHash = gitCommitHash.take(7)
+                // calculate a sample version tag
+                VERSION = shortCommitHash
+                IMAGE = "$ECR_REPO:$VERSION"
+
                 sh '''#!/bin/bash
                   kubectl get deployment/${ECR_REPO}
                   if [ "$?" == "0" ] ; then
