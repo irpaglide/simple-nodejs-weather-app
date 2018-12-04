@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: weatherapp
-        image: 056598417982.dkr.ecr.us-east-2.amazonaws.com/weatherapp
+        image: 056598417982.dkr.ecr.us-east-2.amazonaws.com/weatherapp:latest
         ports:
         - containerPort: 3000
