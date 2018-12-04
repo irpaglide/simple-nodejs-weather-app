@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
-
-cd k8s
+service=$1
+subdomain=$1
+cd k8s-aws-utils
 
 # Print exposed address
-export elb_dns_name=$(kubectl describe service truenorth-weatherapp | grep "LoadBalancer Ingress" | sed 's/LoadBalancer Ingress:[ ]*//')
+export elb_dns_name=$(kubectl describe service $service | grep "LoadBalancer Ingress" | sed 's/LoadBalancer Ingress:[ ]*//')
 
-export elb_hosted_zone_id=$(aws elb describe-load-balancers --region=${TF_VAR_region} | python elb.py ${elb_dns_name})
+export elb_hosted_zone_id=$(aws elb describe-load-balancers --region=us-east-2 | python elb.py ${elb_dns_name})
 export domain_name=${subdomain}
 
 # get gettext package in order to run envsubst
