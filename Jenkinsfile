@@ -24,7 +24,7 @@ pipeline {
         stage("Create Deployment (k8s)") {
             steps {
               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${params.AWS_KEY_ID}"]]) {
-                bash '''#!/bin/bash
+                sh '''#!/bin/bash
                   kubectl get deployment/${params.ECR_REPO}
                   if [ "$?" == 0 ] ; then
                     kubectl create -f ${params.ECR_REPO}-deployment.yaml"
