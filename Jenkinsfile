@@ -14,6 +14,7 @@ pipeline {
                 script
                   {
                     // calculate GIT lastest commit short-hash
+                    TAG = sh(returnStdout: true, script: 'git describe --tags').trim()
                     gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
                     shortCommitHash = gitCommitHash.take(7)
                     // calculate a sample version tag
@@ -34,11 +35,12 @@ pipeline {
                     sh '$(aws ecr get-login --no-include-email --region us-east-2)'
 
                       docker.withRegistry("$ECR_URL") {
-
                       def customImage = docker.build("$ECR_REPO:$VERSION", "--build-arg OW_API_KEY=${params.OW_API_KEY} .")
-                            /* Push the container to the custom Registry */
                             customImage.push()
+                            customImage.push('latest')
+                            customImage.push("$TAG")
                         }
+
 
 
                   }
