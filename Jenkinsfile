@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    triggers {
+    	//Query repository weekdays every four hours starting at minute 0
+    pollSCM('* * * * *')
+    }
+
     parameters {
         credentials(name: 'AWS_KEY_ID', description: 'AWS KEYS CREDENTIALS ID', defaultValue: 'jmgarciatest', credentialType: "Username with password", required: true )
         string(name: 'ECR_URL',description: '',defaultValue: 'https://056598417982.dkr.ecr.us-east-2.amazonaws.com')
