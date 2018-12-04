@@ -9,19 +9,51 @@ pipeline {
         string(name: 'PORT',description: '',defaultValue: '3000')
     }
     stages {
+        stage("Build Prepare") {
+            steps {
+                script
+                  {
+                    // calculate GIT lastest commit short-hash
+                    gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+                    shortCommitHash = gitCommitHash.take(7)
+                    // calculate a sample version tag
+                    VERSION = shortCommitHash
+                    // set the build display name
+                    currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
+                    IMAGE = "$ECR_REPO:$VERSION"
+                  }
+              }
+        }
         stage("Build Image") {
             steps {
+                script
+                  {
+                    docker.build("$ECR_REPO","--build-arg OW_API_KEY=${params.OW_API_KEY} -t ${params.ECR_REPO}")
+                  }
+            }
+        }
+        stage("Build and Push Image") {
+            steps {
               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${params.AWS_KEY_ID}"]]) {
+                script
+                  {
 
-                sh '$(aws ecr get-login --no-include-email --region us-east-2)'
-                sh "docker build  --build-arg OW_API_KEY=${params.OW_API_KEY} -t ${params.ECR_REPO} ."
-                sh "docker tag ${params.ECR_REPO}:latest ${params.ECR_URL}/${params.ECR_REPO}:latest"
-                sh "docker tag ${params.ECR_REPO}:${BUILD_NUMBER}-${GIT_COMMIT} ${params.ECR_URL}/${params.ECR_REPO}:${BUILD_NUMBER}-${GIT_COMMIT}"
-                sh "docker push ${params.ECR_URL}/${params.ECR_REPO}:latest"
-                sh "docker push ${params.ECR_URL}/${params.ECR_REPO}:${BUILD_NUMBER}-${GIT_COMMIT}"
+                    sh '$(aws ecr get-login --no-include-email --region us-east-2)'
+
+                      docker.withRegistry('$ECR_URL') {
+
+                      def customImage = docker.build("$ECR_REPO:$VERSION", "--build-arg OW_API_KEY=${params.OW_API_KEY} -t ${params.ECR_REPO}")
+                            /* Push the container to the custom Registry */
+                            customImage.push()
+                        }
+
+
+                  }
+
               }
 
             }
+
         }
         stage("Create Deployment (k8s)") {
             steps {
