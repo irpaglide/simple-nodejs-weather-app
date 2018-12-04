@@ -33,7 +33,7 @@ pipeline {
 
                     sh '$(aws ecr get-login --no-include-email --region us-east-2)'
 
-                      docker.withRegistry('$ECR_URL') {
+                      docker.withRegistry("$ECR_URL") {
 
                       def customImage = docker.build("$ECR_REPO:$VERSION", "--build-arg OW_API_KEY=${params.OW_API_KEY} .")
                             /* Push the container to the custom Registry */
