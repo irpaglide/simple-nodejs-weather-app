@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Arreadi/simple-nodejs-weather-app.git"
+    "url": "git+https://github.com/irpaglide/simple-nodejs-weather-app.git"
   },
   "author": "Juan Manuel Garcia",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Arreadi/simple-nodejs-weather-app/issues"
+    "url": "https://github.com/irpaglide/simple-nodejs-weather-app/issues"
   },
-  "homepage": "https://github.com/Arreadi/simple-nodejs-weather-app#readme",
+  "homepage": "https://github.com/irpaglide/simple-nodejs-weather-app#readme",
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^4.16.4",
