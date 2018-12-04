@@ -18,6 +18,16 @@ pipeline {
                 sh "docker push ${params.ECR_URL}/${params.ECR_REPO}:latest"
 
               }
+
+            }
+        }
+        stage("Create Deployment (k8s)") {
+            steps {
+              withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${params.AWS_KEY_ID}"]]) {
+                sh "kubectl create -f k8s/${params.ECR_REPO}-deployment.yaml"
+                sh "kubectl expose deployment ${params.ECR_REPO}-deployment --type=LoadBalancer --port=80 --target-port=3000 --name=${params.ECR_REPO}-lb"
+                sh "k8s/route53.sh"
+              }
             }
         }
     }
