@@ -24,8 +24,15 @@ pipeline {
         stage("Create Deployment (k8s)") {
             steps {
               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${params.AWS_KEY_ID}"]]) {
-                sh "kubectl create -f ${params.ECR_REPO}-deployment.yaml"
-                sh "kubectl expose deployment ${params.ECR_REPO} --type=LoadBalancer --port=80 --target-port=3000 --name=${params.ECR_REPO}-lb"
+                bash '''#!/bin/bash
+                  kubectl get deployment/${params.ECR_REPO}
+                  if [ "$?" == 0 ] ; then
+                    kubectl create -f ${params.ECR_REPO}-deployment.yaml"
+                    sh "kubectl expose deployment ${params.ECR_REPO} --type=LoadBalancer --port=80 --target-port=3000 --name=${params.ECR_REPO}-lb"
+                  else
+                    kubectl rolling-update deployment/${params.ECR_REPO} -f ${params.ECR_REPO}-deployment.yaml
+                  fi
+                '''
                 sh "k8s/route53.sh"
               }
             }
