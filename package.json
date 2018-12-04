@@ -1,25 +1,25 @@
 {
-  "name": "simple-nodejs-weather-app",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "weatherapp-backend",
+  "version": "0.0.1",
+  "description": "Backend for Weatherapp",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bmorelli25/simple-nodejs-weather-app.git"
+    "url": "git+https://github.com/Arreadi/simple-nodejs-weather-app.git"
   },
-  "author": "brandon morelli",
+  "author": "Juan Manuel Garcia",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/bmorelli25/simple-nodejs-weather-app/issues"
+    "url": "https://github.com/Arreadi/simple-nodejs-weather-app/issues"
   },
-  "homepage": "https://github.com/bmorelli25/simple-nodejs-weather-app#readme",
+  "homepage": "https://github.com/Arreadi/simple-nodejs-weather-app#readme",
   "dependencies": {
-    "body-parser": "^1.17.2",
-    "express": "^4.15.3",
-    "request": "^2.81.0"
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "request": "^2.88.0"
   }
 }

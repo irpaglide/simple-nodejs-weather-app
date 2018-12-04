@@ -3,8 +3,6 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const app = express()
 
-const apiKey = '*****************';
-
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs')
@@ -15,7 +13,7 @@ app.get('/', function (req, res) {
 
 app.post('/', function (req, res) {
   let city = req.body.city;
-  let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
+  let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${process.env.ENV_OW_API_KEY}`
 
   request(url, function (err, response, body) {
     if(err){

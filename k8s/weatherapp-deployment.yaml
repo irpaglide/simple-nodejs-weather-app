@@ -1,0 +1,19 @@
+apiVersion: apps/v1beta2 # error with v1
+kind: Deployment
+metadata:
+  name: truenorth-weatherapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: truenorth-weatherapp
+  template:
+    metadata:
+      labels:
+        app: truenorth-weatherapp
+    spec:
+      containers:
+      - name: truenorth-weatherapp
+        image: localhost:5000/weatherapp
+        ports:
+        - containerPort: 3000

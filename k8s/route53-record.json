@@ -1,0 +1,16 @@
+{
+  "Changes": [
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "",
+        "Type": "A",
+        "AliasTarget": {
+          "HostedZoneId": "",
+          "DNSName": "a71ea5eb8f70f11e88ace0660c2a4ad7-575165450.us-east-2.elb.amazonaws.com",
+          "EvaluateTargetHealth": false
+        }
+      }
+    }
+  ]
+}
