@@ -1,19 +1,19 @@
 apiVersion: apps/v1beta2 # error with v1
 kind: Deployment
 metadata:
-  name: truenorth-weatherapp
+  name: weatherapp
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: truenorth-weatherapp
+      app: weatherapp
   template:
     metadata:
       labels:
-        app: truenorth-weatherapp
+        app: weatherapp
     spec:
       containers:
-      - name: truenorth-weatherapp
+      - name: weatherapp
         image: 056598417982.dkr.ecr.us-east-2.amazonaws.com/weatherapp
         ports:
         - containerPort: 3000
