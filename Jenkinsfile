@@ -34,7 +34,7 @@ pipeline {
                     kubectl expose deployment ${ECR_REPO} --type=LoadBalancer --port=80 --target-port=${PORT} --name=${ECR_REPO}-lb"
                   fi
                 '''
-                sh "k8s/route53.sh"
+                sh "k8s-aws-utils/route53.sh"
               }
             }
         }
