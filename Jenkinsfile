@@ -10,10 +10,13 @@ pipeline {
     stages {
         stage("Build Image") {
             steps {
+              withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${params.AWS_KEY_ID}"]]) {
+
                 sh '$(aws ecr get-login --no-include-email --region us-east-2)'
                 sh 'docker build -t ${params.ECR_REPO} .'
                 sh 'docker tag ${params.ECR_REPO}:latest ${params.ECR_URL}/${params.ECR_REPO}:latest'
                 sh 'docker push ${params.ECR_URL}/${params.ECR_REPO}:latest'
+              }
             }
         }
     }
