@@ -27,7 +27,7 @@ pipeline {
               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${params.AWS_KEY_ID}"]]) {
                 sh '''#!/bin/bash
                   kubectl get deployment/${ECR_REPO}
-                  if [ "$?" == 0 ] ; then
+                  if [ "$?" == "0" ] ; then
                     kubectl create -f ${ECR_REPO}-deployment.yaml"
                     sh "kubectl expose deployment ${ECR_REPO} --type=LoadBalancer --port=80 --target-port=${PORT} --name=${ECR_REPO}-lb"
                   else
