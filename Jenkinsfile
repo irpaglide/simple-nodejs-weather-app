@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script
                   {
-                    docker.build("$ECR_REPO","--build-arg OW_API_KEY=${params.OW_API_KEY} -t ${params.ECR_REPO}")
+                    docker.build("$ECR_REPO","--build-arg OW_API_KEY=${params.OW_API_KEY}")
                   }
             }
         }
