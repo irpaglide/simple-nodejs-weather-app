@@ -11,6 +11,7 @@ pipeline {
     stages {
         stage("Build Prepare") {
             steps {
+
                 script
                   {
                     // calculate GIT lastest commit short-hash
@@ -22,7 +23,12 @@ pipeline {
                     // set the build display name
                     currentBuild.displayName = "#${BUILD_ID}-${VERSION}"
                     IMAGE = "$ECR_REPO:$VERSION"
+
                   }
+
+              }
+              environment {
+                    IMAGE = sh (returnStdout: true, script: "echo $ECR_REPO:$VERSION").trim()
               }
         }
 
@@ -54,11 +60,6 @@ pipeline {
             steps {
               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${params.AWS_KEY_ID}"]]) {
                 script {
-                gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-                shortCommitHash = gitCommitHash.take(7)
-                // calculate a sample version tag
-                VERSION = shortCommitHash
-                IMAGE = "$ECR_REPO:$VERSION"
 
                 sh '''#!/bin/bash
                   kubectl get deployment/${ECR_REPO}
