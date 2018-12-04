@@ -53,6 +53,7 @@ pipeline {
         stage("Create Deployment (k8s)") {
             steps {
               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${params.AWS_KEY_ID}"]]) {
+                script {
                 sh '''#!/bin/bash
                   kubectl get deployment/${ECR_REPO}
                   if [ "$?" == "0" ] ; then
@@ -64,6 +65,7 @@ pipeline {
                   fi
                 '''
               }
+            }
             }
         }
     }
