@@ -6,6 +6,7 @@ pipeline {
         string(name: 'ECR_URL',description: '',defaultValue: '056598417982.dkr.ecr.us-east-2.amazonaws.com')
         string(name: 'ECR_REPO',description: '',defaultValue: 'weatherapp')
         string(name: 'OW_API_KEY',description: '',defaultValue: '560895af60d087983bc18ebaa7fe57a5')
+        string(name: 'PORT',description: '',defaultValue: '3000')
     }
     stages {
         stage("Build Image") {
@@ -24,15 +25,15 @@ pipeline {
         stage("Create Deployment (k8s)") {
             steps {
               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${params.AWS_KEY_ID}"]]) {
-                sh """#!/bin/bash
-                  kubectl get deployment/${params.ECR_REPO}
+                sh '''#!/bin/bash
+                  kubectl get deployment/${ECR_REPO}
                   if [ "$?" == 0 ] ; then
                     kubectl create -f ${params.ECR_REPO}-deployment.yaml"
-                    sh "kubectl expose deployment ${params.ECR_REPO} --type=LoadBalancer --port=80 --target-port=3000 --name=${params.ECR_REPO}-lb"
+                    sh "kubectl expose deployment ${ECR_REPO} --type=LoadBalancer --port=80 --target-port=${PORT} --name=${ECR_REPO}-lb"
                   else
-                    kubectl rolling-update deployment/${params.ECR_REPO} -f ${params.ECR_REPO}-deployment.yaml
+                    kubectl rolling-update deployment/${ECR_REPO} -f ${ECR_REPO}-deployment.yaml
                   fi
-                """
+                '''
                 sh "k8s/route53.sh"
               }
             }
