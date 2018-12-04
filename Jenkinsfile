@@ -35,7 +35,7 @@ pipeline {
 
                       docker.withRegistry('$ECR_URL') {
 
-                      def customImage = docker.build("$ECR_REPO:$VERSION", "--build-arg OW_API_KEY=${params.OW_API_KEY}")
+                      def customImage = docker.build("$ECR_REPO:$VERSION", "--build-arg OW_API_KEY=${params.OW_API_KEY} .")
                             /* Push the container to the custom Registry */
                             customImage.push()
                         }
