@@ -3,7 +3,7 @@ pipeline {
 
     parameters {
         credentials(name: 'AWS_KEY_ID', description: 'AWS KEYS CREDENTIALS ID', defaultValue: 'jmgarciatest', credentialType: "Username with password", required: true )
-        string(name: 'ECR_URL',description: '',defaultValue: '056598417982.dkr.ecr.us-east-2.amazonaws.com')
+        string(name: 'ECR_URL',description: '',defaultValue: 'https://056598417982.dkr.ecr.us-east-2.amazonaws.com')
         string(name: 'ECR_REPO',description: '',defaultValue: 'weatherapp')
         string(name: 'OW_API_KEY',description: '',defaultValue: '560895af60d087983bc18ebaa7fe57a5')
         string(name: 'PORT',description: '',defaultValue: '3000')
