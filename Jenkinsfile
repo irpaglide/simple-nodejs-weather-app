@@ -29,7 +29,7 @@ pipeline {
                   kubectl get deployment/${ECR_REPO}
                   if [ "$?" == "0" ] ; then
                     kubectl create -f ${ECR_REPO}-deployment.yaml"
-                    sh "kubectl expose deployment ${ECR_REPO} --type=LoadBalancer --port=80 --target-port=${PORT} --name=${ECR_REPO}-lb"
+                    kubectl expose deployment ${ECR_REPO} --type=LoadBalancer --port=80 --target-port=${PORT} --name=${ECR_REPO}-lb"
                   else
                     kubectl rolling-update deployment/${ECR_REPO} -f ${ECR_REPO}-deployment.yaml
                   fi
