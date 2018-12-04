@@ -10,10 +10,10 @@ pipeline {
     stages {
         stage("Build Image") {
             steps {
-                sh "$(aws ecr get-login --no-include-email --region us-east-2)"
-                sh "docker build -t ${params.ECR_REPO} ."
-                sh "docker tag ${params.ECR_REPO}:latest ${params.ECR_URL}/${params.ECR_REPO}:latest"
-                sh "docker push ${params.ECR_URL}/${params.ECR_REPO}:latest"
+                sh '$(aws ecr get-login --no-include-email --region us-east-2)'
+                sh 'docker build -t ${params.ECR_REPO} .'
+                sh 'docker tag ${params.ECR_REPO}:latest ${params.ECR_URL}/${params.ECR_REPO}:latest'
+                sh 'docker push ${params.ECR_URL}/${params.ECR_REPO}:latest'
             }
         }
     }
