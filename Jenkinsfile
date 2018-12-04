@@ -28,8 +28,8 @@ pipeline {
                 sh '''#!/bin/bash
                   kubectl get deployment/${ECR_REPO}
                   if [ "$?" == "0" ] ; then
-                    kubectl rollout ${ECR_REPO} -f ${ECR_REPO}-deployment.yaml
-                  else
+                    kubectl set image deployments/${ECR_REPO} ${ECR_REPO}=latest --record=true
+                 else
                     kubectl create -f ${ECR_REPO}-deployment.yaml"
                     kubectl expose deployment ${ECR_REPO} --type=LoadBalancer --port=80 --target-port=${PORT} --name=${ECR_REPO}-lb"
                   fi
